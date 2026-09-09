@@ -64,3 +64,12 @@
     font-size: 1.05rem;
   }
 }
+@media (max-width: 560px) {
+  .brand-mark--emblem {
+    height: 46px;         /* Scales down slightly on mobile viewports */
+  }
+
+  .brand-name {
+    font-size: 1.15rem;
+  }
+}
