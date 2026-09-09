@@ -55,20 +55,15 @@
   .steps-grid {
     grid-template-columns: 1fr;
   }
-
   .filter-bar .field {
     min-width: 100%;
   }
-
   .brand-name {
     font-size: 1.05rem;
   }
-}
-@media (max-width: 560px) {
-  .brand-mark--emblem {
-    height: 46px;         /* Scales down slightly on mobile viewports */
+  .brand-mark {
+    height: 46px;
   }
-
   .brand-name {
     font-size: 1.15rem;
   }
