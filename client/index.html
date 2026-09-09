@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MausamCrop — weather-based crop and vegetable cultivation advisory for Indian growers."
+    />
+    <title>MausamCrop — Weather-based crop advisory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body class="page" data-page="home">
+    <!-- Skip link for keyboard users -->
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav-bar">
+        <a class="brand" href="index.html" aria-label="MausamCrop home">
+          <!-- Inline sprout logo -->
+          <img 
+          src="assets/images/logo-removebg-preview.png" 
+          alt="MausamCrop Emblem" 
+          class="brand-mark brand-mark"
+          />
+          <span class="brand-name">
+            <span class="word-mausam">Mausam</span><span class="word-crop">Crop</span>
+          </span>
+        </a>
+
+        <nav class="nav-links" id="primary-nav" aria-label="Primary">
+          <a href="index.html" aria-current="page" data-i18n="navHome">Home</a>
+          <a href="location.html" data-i18n="navFind">Find Crops</a>
+          <a href="guide.html" data-i18n="navGuide">Cultivation Guide</a>
+        </nav>
+
+        <div class="nav-tools">
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="hi" aria-pressed="false">HI</button>
+          </div>
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="primary-nav"
+            aria-label="Open menu"
+          >
+            <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true">
+              <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!--
+      Landing layout: hero + weather snapshot, featured crop grid, then how-it-works.
+      Shared chrome (header/footer) is duplicated across screens for a zero-build vanilla setup.
+    -->
+    <main id="main" class="page-main">
+      <!-- Hero: value proposition + live weather snapshot -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-grid">
+          <div>
+            <p class="eyebrow" data-i18n="heroEyebrow">Phase 1 · Weather-smart farming</p>
+            <h1 id="hero-title" data-i18n="heroTitle">
+              Grow the right crop for today’s weather.
+            </h1>
+            <p class="hero-copy" data-i18n="heroCopy">
+              MausamCrop matches local temperature, humidity, and rainfall with
+              vegetables that thrive in your district — then walks you through
+              soil prep, sowing, watering, and harvest.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn--primary" href="location.html" data-i18n="ctaFind">Find matching crops</a>
+              <a class="btn btn--ghost" href="guide.html" data-i18n="ctaGuide">Open cultivation guide</a>
+            </div>
+            <div class="hero-stats" aria-label="Platform highlights">
+              <div class="stat">
+                <strong>6+</strong>
+                <span data-i18n="statCrops">Prototype crops</span>
+              </div>
+              <div class="stat">
+                <strong>EN / HI</strong>
+                <span data-i18n="statLang">Bilingual interface</span>
+              </div>
+              <div class="stat">
+                <strong>4</strong>
+                <span data-i18n="statSteps">Care stages per crop</span>
+              </div>
+            </div>
+          </div>
+
+          <article class="weather-card" aria-labelledby="weather-heading">
+            <div class="weather-card__top">
+              <div>
+                <h2 id="weather-heading" class="eyebrow" data-i18n="weatherTitle">Weather snapshot</h2>
+                <p class="weather-loc" data-weather="location">Delhi, India</p>
+                <p class="weather-temp"><span data-weather="temp">31</span><span>°C</span></p>
+                <p class="condition-pill" data-weather="condition">Clear · Warm</p>
+              </div>
+              <svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true">
+                <circle cx="28" cy="24" r="12" fill="#F7EEDB" />
+                <circle cx="28" cy="24" r="8" fill="#E8B84A" />
+              </svg>
+            </div>
+            <div class="weather-metrics">
+              <div class="metric">
+                <small data-i18n="humidity">Humidity</small>
+                <strong><span data-weather="humidity">42</span>%</strong>
+              </div>
+              <div class="metric">
+                <small data-i18n="rainfall">Rainfall</small>
+                <strong data-weather="rainfall">Low</strong>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Featured crops drawn from mock data -->
+      <section class="section" aria-labelledby="featured-title">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow" data-i18n="featuredEyebrow">Featured for this climate</p>
+              <h2 id="featured-title" class="section-title" data-i18n="featuredTitle">
+                Crops that fit the current temperature
+              </h2>
+              <p class="section-lead" data-i18n="featuredLead">
+                Cards update from mock weather. Set your district to refine matches.
+              </p>
+            </div>
+            <a class="btn btn--ghost" href="results.html" data-i18n="viewAll">View all crops</a>
+          </div>
+          <div class="crop-grid" id="featured-grid"></div>
+        </div>
+      </section>
+
+      <section class="section section--tight" aria-labelledby="how-title">
+        <div class="container">
+          <h2 id="how-title" class="section-title" data-i18n="howTitle">How MausamCrop works</h2>
+          <div class="steps-grid mt-4">
+            <article class="step-card">
+              <div class="step-num">1</div>
+              <h3 data-i18n="how1Title">Share location</h3>
+              <p class="muted mt-2" data-i18n="how1Body">
+                Allow GPS or search your city. We simulate a weather snapshot for the prototype.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-num">2</div>
+              <h3 data-i18n="how2Title">Match crops</h3>
+              <p class="muted mt-2" data-i18n="how2Body">
+                Ideal temperature bands and water needs filter the recommendation grid.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-num">3</div>
+              <h3 data-i18n="how3Title">Follow the guide</h3>
+              <p class="muted mt-2" data-i18n="how3Body">
+                Soil prep, sowing, watering, and harvest steps in one bilingual timeline.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-num">4</div>
+              <h3 data-i18n="how4Title">Plan the season</h3>
+              <p class="muted mt-2" data-i18n="how4Body">
+                Harvest-duration badges help you pick short-cycle or longer vegetables.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <p><strong>MausamCrop</strong> · <span data-i18n="footerTag">College Phase 1 prototype</span></p>
+        <p data-i18n="footerNote">Mock weather only — not a substitute for local agronomy advice.</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
