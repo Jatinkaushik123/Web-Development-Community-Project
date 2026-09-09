@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Crop recommendations filtered by temperature, season, and water need." />
+    <title>Recommendations — MausamCrop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body class="page" data-page="results">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav-bar">
+        <a class="brand" href="index.html" aria-label="MausamCrop home">
+          <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <circle cx="24" cy="24" r="22" fill="#1B4D1B" opacity="0.08" />
+            <path d="M24 38c0-10 0-16 0-22" stroke="#1B4D1B" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 20c-7-1-12-6-13-12 8 1 13 6 13 12Z" fill="#589E33" />
+            <path d="M24 23c6-2 12-1 16 4-7 2-13 1-16-4Z" fill="#1B4D1B" />
+          </svg>
+          <span class="brand-name">
+            <span class="word-mausam">Mausam</span><span class="word-crop">Crop</span>
+          </span>
+        </a>
+        <nav class="nav-links" id="primary-nav" aria-label="Primary">
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="location.html" data-i18n="navFind">Find Crops</a>
+          <a href="guide.html" data-i18n="navGuide">Cultivation Guide</a>
+        </nav>
+        <div class="nav-tools">
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="hi" aria-pressed="false">HI</button>
+          </div>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+            <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true">
+              <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="page-main">
+      <section class="section" aria-labelledby="results-title">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow" data-i18n="resultsEyebrow">Recommendations</p>
+              <h1 id="results-title" class="section-title" data-i18n="resultsTitle">Crops for your weather</h1>
+              <p class="section-lead" data-i18n="resultsLead">
+                Filter by season and water need. A Match badge means the crop’s ideal temperature includes the current snapshot.
+              </p>
+            </div>
+            <article class="weather-card" aria-label="Current weather">
+              <p class="weather-loc" data-weather="location">Delhi, India</p>
+              <p class="weather-temp"><span data-weather="temp">31</span><span>°C</span></p>
+              <p class="condition-pill" data-weather="condition">Clear · Warm</p>
+              <div class="weather-metrics">
+                <div class="metric">
+                  <small data-i18n="humidity">Humidity</small>
+                  <strong><span data-weather="humidity">42</span>%</strong>
+                </div>
+                <div class="metric">
+                  <small data-i18n="rainfall">Rainfall</small>
+                  <strong data-weather="rainfall">Low</strong>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <form class="filter-bar" id="filter-form" aria-label="Crop filters">
+            <div class="field">
+              <label for="filter-season" data-i18n="filterSeason">Season / category</label>
+              <select id="filter-season" name="season">
+                <option value="all" data-i18n="filterAll">All</option>
+                <option value="warm" data-i18n="filterWarm">Warm-Season</option>
+                <option value="cool" data-i18n="filterCool">Cool-Season</option>
+                <option value="leafy" data-i18n="filterLeafy">Leafy Green</option>
+                <option value="root" data-i18n="filterRoot">Root Crop</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="filter-water" data-i18n="filterWater">Water need</label>
+              <select id="filter-water" name="water">
+                <option value="all" data-i18n="filterAll">All</option>
+                <option value="low" data-i18n="waterLow">Low</option>
+                <option value="moderate" data-i18n="waterMod">Moderate</option>
+                <option value="high" data-i18n="waterHigh">High</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="filter-match" data-i18n="filterMatch">Temperature fit</label>
+              <select id="filter-match" name="match">
+                <option value="all" data-i18n="filterAll">All</option>
+                <option value="match" data-i18n="filterMatched">Matching now</option>
+              </select>
+            </div>
+          </form>
+
+          <div class="crop-grid" id="results-grid"></div>
+          <p class="empty-state hidden" id="results-empty" data-i18n="emptyCrops">
+            No crops match these filters. Try All, or pick another city.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <p><strong>MausamCrop</strong> · <span data-i18n="footerTag">College Phase 1 prototype</span></p>
+        <p data-i18n="footerNote">Mock weather only — not a substitute for local agronomy advice.</p>
+      </div>
+    </footer>
+    <script src="js/main.js"></script>
+  </body>
+</html>

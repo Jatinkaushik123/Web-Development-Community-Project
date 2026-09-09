@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Set your district so MausamCrop can recommend crops for local weather." />
+    <title>Find Crops — MausamCrop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body class="page" data-page="location">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav-bar">
+        <a class="brand" href="index.html" aria-label="MausamCrop home">
+          <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <circle cx="24" cy="24" r="22" fill="#1B4D1B" opacity="0.08" />
+            <path d="M24 38c0-10 0-16 0-22" stroke="#1B4D1B" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 20c-7-1-12-6-13-12 8 1 13 6 13 12Z" fill="#589E33" />
+            <path d="M24 23c6-2 12-1 16 4-7 2-13 1-16-4Z" fill="#1B4D1B" />
+          </svg>
+          <span class="brand-name">
+            <span class="word-mausam">Mausam</span><span class="word-crop">Crop</span>
+          </span>
+        </a>
+        <nav class="nav-links" id="primary-nav" aria-label="Primary">
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="location.html" aria-current="page" data-i18n="navFind">Find Crops</a>
+          <a href="guide.html" data-i18n="navGuide">Cultivation Guide</a>
+        </nav>
+        <div class="nav-tools">
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="hi" aria-pressed="false">HI</button>
+          </div>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+            <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true">
+              <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="page-main">
+      <section class="section" aria-labelledby="loc-title">
+        <div class="container split">
+          <div>
+            <p class="eyebrow" data-i18n="locEyebrow">Location</p>
+            <h1 id="loc-title" class="section-title" data-i18n="locTitle">Where are you growing?</h1>
+            <p class="section-lead" data-i18n="locLead">
+              Allow browser geolocation for a simulated district match, or search a city
+              if GPS is denied. Weather values are prototype data for evaluation.
+            </p>
+
+            <article class="prompt-card mt-4">
+              <h2 data-i18n="gpsTitle">Use device location</h2>
+              <p class="muted mt-2" data-i18n="gpsBody">
+                We only store a mock city name and weather snapshot in this browser.
+              </p>
+              <button class="btn btn--primary mt-4" type="button" id="geo-btn" data-i18n="gpsCta">
+                Detect my location
+              </button>
+              <p class="status-msg" id="geo-status" role="status"></p>
+            </article>
+          </div>
+
+          <form class="panel" id="city-form" novalidate>
+            <h2 data-i18n="searchTitle">Search district or city</h2>
+            <p class="muted mt-2" data-i18n="searchHint">
+              Try Delhi, Lucknow, Pune, Bengaluru, Jaipur, Kolkata, Chennai, or Shimla.
+            </p>
+            <div class="field mt-4">
+              <label for="city-input" data-i18n="cityLabel">City name</label>
+              <input
+                id="city-input"
+                name="city"
+                type="search"
+                autocomplete="address-level2"
+                placeholder="e.g. Pune"
+                required
+              />
+            </div>
+            <button class="btn btn--primary btn--block mt-4" type="submit" data-i18n="searchCta">
+              Apply city weather
+            </button>
+            <p class="status-msg" id="city-status" role="status"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <p><strong>MausamCrop</strong> · <span data-i18n="footerTag">College Phase 1 prototype</span></p>
+        <p data-i18n="footerNote">Mock weather only — not a substitute for local agronomy advice.</p>
+      </div>
+    </footer>
+    <script src="js/main.js"></script>
+  </body>
+</html>
