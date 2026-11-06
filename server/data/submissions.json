@@ -1,0 +1,123 @@
+[
+  {
+    "id": "023ab670-59b9-47ce-80c7-51339e581a2a",
+    "fullName": "Ravi Kumar",
+    "city": "Pune",
+    "crop": "tomato",
+    "category": "home-gardener",
+    "query": "When should I transplant tomato seedlings in Pune weather?",
+    "submittedAt": "2026-10-28T20:00:00.000Z",
+    "receivedAt": "2026-10-28T20:32:11.979Z",
+    "status": "received"
+  },
+  {
+    "id": "dcddc81d-cd61-4d90-ad36-25eb38528fca",
+    "fullName": "Asha Patel",
+    "city": "Lucknow",
+    "crop": "spinach",
+    "category": "balcony-grower",
+    "query": "How often should I water spinach on a Lucknow balcony in September?",
+    "submittedAt": "2026-10-28T22:00:00.000Z",
+    "receivedAt": "2026-10-28T22:13:31.877Z",
+    "status": "received"
+  },
+  {
+    "id": "5370400b-cde8-4dd2-b9d2-7d073a5b3862",
+    "fullName": "Jatin Kaushik",
+    "city": "Bahadurgarh",
+    "crop": "tomato",
+    "category": "home-gardener",
+    "query": "This is soo good",
+    "submittedAt": "2026-10-28T22:17:26.359Z",
+    "receivedAt": "2026-10-28T22:17:26.386Z",
+    "status": "received"
+  },
+  {
+    "id": "5063a985-7034-4179-90c7-12ba67e82c5e",
+    "fullName": "Aarav Sharma",
+    "city": "Delhi",
+    "crop": "tomato",
+    "category": "home-gardener",
+    "query": "Testing tomato advisory submission query",
+    "submittedAt": "2026-11-05T07:01:46.071Z",
+    "receivedAt": "2026-11-05T07:01:46.071Z",
+    "status": "received"
+  },
+  {
+    "id": "a7346a31-bf64-4f72-8266-e3ae419ad96a",
+    "fullName": "Aarav Sharma",
+    "city": "Jaipur",
+    "crop": "tomato",
+    "category": "small-farmer",
+    "query": "Testing plural crop tomatoes normalization query",
+    "submittedAt": "2026-11-05T07:01:46.082Z",
+    "receivedAt": "2026-11-05T07:01:46.082Z",
+    "status": "received"
+  },
+  {
+    "id": "e23044ff-577b-4d91-b78e-6890daed37a7",
+    "fullName": "Aarav Sharma",
+    "city": "Delhi",
+    "crop": "tomato",
+    "category": "home-gardener",
+    "query": "Testing tomato advisory submission query",
+    "submittedAt": "2026-11-05T07:16:16.591Z",
+    "receivedAt": "2026-11-05T07:16:16.591Z",
+    "status": "received"
+  },
+  {
+    "id": "2bfb536a-4f5d-4931-8807-e2a79ab635cc",
+    "fullName": "Aarav Sharma",
+    "city": "Jaipur",
+    "crop": "tomato",
+    "category": "small-farmer",
+    "query": "Testing plural crop tomatoes normalization query",
+    "submittedAt": "2026-11-05T07:16:16.594Z",
+    "receivedAt": "2026-11-05T07:16:16.594Z",
+    "status": "received"
+  },
+  {
+    "id": "29bfb104-1a39-49d5-a7f0-51226fc09ffe",
+    "fullName": "Farmer Rohan",
+    "city": "Pune",
+    "crop": "tomato",
+    "category": "small-farmer",
+    "query": "How often should I water tomatoes in moderate temperatures?",
+    "submittedAt": "2026-11-06T01:38:28.568Z",
+    "receivedAt": "2026-11-06T01:38:28.568Z",
+    "status": "received"
+  },
+  {
+    "id": "7a731142-9d97-4d2b-842e-17d3b70cbc02",
+    "fullName": "Bakshish",
+    "city": "Karnal",
+    "crop": "chillies",
+    "category": "home-gardener",
+    "query": "grow very nice it was very use full",
+    "submittedAt": "2026-11-06T06:30:15.556Z",
+    "receivedAt": "2026-11-06T06:30:16.376Z",
+    "status": "received"
+  },
+  {
+    "id": "8ba154ee-3962-4132-bdb1-3b477bf4f353",
+    "fullName": "Bakshish",
+    "city": "Karnal",
+    "crop": "chillies",
+    "category": "home-gardener",
+    "query": "ashbkasjdbadjldnas",
+    "submittedAt": "2026-11-06T07:42:38.340Z",
+    "receivedAt": "2026-11-06T07:42:39.202Z",
+    "status": "received"
+  },
+  {
+    "id": "cff908e0-3ef0-429e-86eb-13d0c988e1d2",
+    "fullName": "Bakshish",
+    "city": "Karnal",
+    "crop": "chillies",
+    "category": "home-gardener",
+    "query": "it grows very nicely",
+    "submittedAt": "2026-11-06T07:44:56.204Z",
+    "receivedAt": "2026-11-06T07:44:57.031Z",
+    "status": "received"
+  }
+]

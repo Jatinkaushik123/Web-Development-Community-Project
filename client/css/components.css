@@ -264,10 +264,25 @@
 }
 
 .crop-card__media {
-  height: 132px;
+  height: 140px;
   display: grid;
   place-items: center;
   background: linear-gradient(160deg, #e8f3de, #f7eedb);
+  overflow: hidden;
+  position: relative;
+  padding: 0.5rem;
+}
+
+.crop-card__media img {
+  max-height: 108px;
+  max-width: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+  transition: transform var(--transition);
+}
+
+.crop-card:hover .crop-card__media img {
+  transform: scale(1.08);
 }
 
 .crop-card__media svg {
@@ -334,24 +349,124 @@
   gap: 0.4rem;
 }
 
-.field label {
+.field label,
+.field legend {
   font-size: var(--text-sm);
   font-weight: 650;
 }
 
+.field legend {
+  padding: 0;
+}
+
 .field input,
-.field select {
+.field select,
+.field textarea {
   min-height: 46px;
   padding: 0.6rem 0.85rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: #fff;
   color: var(--color-text);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 
 .field input:focus,
-.field select:focus {
+.field select:focus,
+.field textarea:focus {
   border-color: var(--color-accent);
+}
+
+.field.is-invalid input,
+.field.is-invalid select,
+.field.is-invalid textarea {
+  border-color: var(--color-invalid);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.field.is-valid input,
+.field.is-valid select,
+.field.is-valid textarea {
+  border-color: var(--color-valid);
+  box-shadow: 0 0 0 3px rgba(88, 158, 51, 0.16);
+}
+
+.field-error {
+  min-height: 1.15em;
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-invalid);
+}
+
+.radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.radio-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.radio-option:has(input:checked) {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.field.is-invalid .radio-row {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+  border-radius: var(--radius-md);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.form-toast {
+  margin-top: var(--space-4);
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+}
+
+.form-toast[data-tone="ok"] {
+  background: var(--color-accent-soft);
+  color: var(--color-primary);
+}
+
+.form-toast[data-tone="warn"] {
+  background: #fef2f2;
+  color: var(--color-invalid);
 }
 
 .status-msg {
@@ -469,4 +584,63 @@
 .timeline-item.is-active .timeline-body {
   border-color: var(--color-accent);
   box-shadow: var(--shadow-card);
+}
+
+
+/* ---- Guide crop header & interactive timeline ---- */
+.guide-crop-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem 1.35rem;
+  box-shadow: var(--shadow-card);
+}
+
+.guide-crop-thumb {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(160deg, #e8f3de, #f7eedb);
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 0.35rem;
+  border: 1px solid var(--color-border);
+}
+
+.guide-crop-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.15));
+}
+
+.guide-crop-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.guide-crop-info h2 {
+  font-size: 1.35rem;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.guide-crop-info h2 small {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.timeline-item {
+  cursor: pointer;
+  outline: none;
+}
+
+.timeline-item:focus-visible .timeline-body {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
 }

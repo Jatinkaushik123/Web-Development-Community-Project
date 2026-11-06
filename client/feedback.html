@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Send farmer and home-grower feedback or an advisory query to MausamCrop."
+    />
+    <title>Feedback — MausamCrop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="icon" href="assets/images/logo-removebg-preview.png" type="image/png" />
+  </head>
+  <body class="page" data-page="feedback">
+    <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav-bar">
+        <a class="brand" href="index.html" aria-label="MausamCrop home">
+          <img
+            src="assets/images/logo-removebg-preview.png"
+            alt="MausamCrop Emblem"
+            class="brand-mark"
+          />
+          <span class="brand-name">
+            <span class="word-mausam">Mausam</span><span class="word-crop">Crop</span>
+          </span>
+        </a>
+        <nav class="nav-links" id="primary-nav" aria-label="Primary">
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="location.html" data-i18n="navFind">Find Crops</a>
+          <a href="results.html" data-i18n="navResults">Results</a>
+          <a href="guide.html" data-i18n="navGuide">Cultivation Guide</a>
+          <a href="feedback.html" aria-current="page" data-i18n="navFeedback">Feedback</a>
+        </nav>
+        <div class="nav-tools">
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="hi" aria-pressed="false">HI</button>
+          </div>
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="primary-nav"
+            aria-label="Open menu"
+          >
+            <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true">
+              <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="page-main">
+      <section class="section" aria-labelledby="feedback-title">
+        <div class="container split">
+          <div>
+            <p class="eyebrow" data-i18n="feedbackEyebrow">Advisory desk</p>
+            <h1 id="feedback-title" class="section-title" data-i18n="feedbackTitle">
+              Farmer &amp; home grower feedback
+            </h1>
+            <p class="section-lead" data-i18n="feedbackLead">
+              Ask a cultivation question or share what worked on your plot. Fields
+              va  lidate as you type. Submit stays off until every required field is valid.
+            </p>
+            <ul class="muted mt-4" style="list-style: disc; padding-left: 1.2rem">
+              <li><a href="guide.html" data-i18n="ctaGuide">Open cultivation guide</a></li>
+              <li><a href="results.html" data-i18n="navResults">Results</a></li>
+            </ul>
+          </div>
+
+          <!-- Real-time validated advisory form; posted as JSON to POST /api/submit -->
+          <form class="panel" id="feedback-form" novalidate>
+            <div class="field" data-field="fullName">
+              <label for="full-name" data-i18n="feedbackName">Full name</label>
+              <input
+                id="full-name"
+                name="fullName"
+                type="text"
+                autocomplete="name"
+                required
+                minlength="3"
+                spellcheck="false"
+                aria-required="true"
+                aria-describedby="full-name-error"
+              />
+              <p class="field-error" id="full-name-error" role="alert"></p>
+            </div>
+
+            <div class="field mt-4" data-field="city">
+              <label for="feedback-city" data-i18n="feedbackCity">City / district</label>
+              <input
+                id="feedback-city"
+                name="city"
+                type="text"
+                autocomplete="address-level2"
+                required
+                aria-required="true"
+                aria-describedby="feedback-city-error"
+              />
+              <p class="field-error" id="feedback-city-error" role="alert"></p>
+            </div>
+
+            <div class="field mt-4" data-field="crop">
+              <label for="feedback-crop" data-i18n="feedbackCrop">Crop of interest</label>
+              <select id="feedback-crop" name="crop" required aria-required="true" aria-describedby="feedback-crop-error">
+                <option value="" data-i18n="feedbackCropPlaceholder">Select a crop</option>
+                <option value="tomato">Tomato / टमाटर</option>
+                <option value="spinach">Spinach / पालक</option>
+                <option value="okra">Okra / भिंडी</option>
+                <option value="carrot">Carrot / गाजर</option>
+                <option value="chillies">Green Chillies / हरी मिर्च</option>
+                <option value="radish">Radish / मूली</option>
+              </select>
+              <p class="field-error" id="feedback-crop-error" role="alert"></p>
+            </div>
+
+            <fieldset class="field mt-4" data-field="category">
+              <legend data-i18n="feedbackCategory">Category / user type</legend>
+              <div class="radio-row" role="radiogroup" aria-required="true" aria-describedby="feedback-category-error">
+                <label class="radio-option">
+                  <input type="radio" name="category" value="home-gardener" required />
+                  <span data-i18n="catHome">Home Gardener</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="category" value="balcony-grower" />
+                  <span data-i18n="catBalcony">Balcony Grower</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="category" value="small-farmer" />
+                  <span data-i18n="catFarmer">Small Farmer</span>
+                </label>
+              </div>
+              <p class="field-error" id="feedback-category-error" role="alert"></p>
+            </fieldset>
+
+            <div class="field mt-4" data-field="query">
+              <label for="feedback-query" data-i18n="feedbackQuery">Query / feedback</label>
+              <textarea
+                id="feedback-query"
+                name="query"
+                rows="5"
+                required
+                minlength="15"
+                aria-required="true"
+                aria-describedby="feedback-query-error"
+              ></textarea>
+              <p class="field-error" id="feedback-query-error" role="alert"></p>
+            </div>
+
+            <button class="btn btn--primary btn--block mt-4" type="submit" id="feedback-submit" disabled>
+              <span class="btn-spinner hidden" aria-hidden="true"></span>
+              <span data-i18n="feedbackSubmit">Send feedback</span>
+            </button>
+
+            <div class="form-toast hidden" id="feedback-status" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <p><strong>MausamCrop</strong> · <span data-i18n="footerTag">College Phase 2 prototype</span></p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="location.html" data-i18n="navFind">Find Crops</a>
+          <a href="results.html" data-i18n="navResults">Results</a>
+          <a href="guide.html" data-i18n="navGuide">Cultivation Guide</a>
+          <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -19,6 +19,8 @@
   --color-border: rgba(27, 77, 27, 0.12);
   --color-shadow: rgba(31, 41, 55, 0.08);
   --color-danger: #b45309;
+  --color-invalid: #dc2626;
+  --color-valid: #589e33;
 
   /* Type */
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -287,6 +289,17 @@ ul {
 }
 
 .site-footer strong {
+  color: #fff;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  font-size: var(--text-sm);
+}
+
+.footer-nav a:hover {
   color: #fff;
 }
 

@@ -112,6 +112,7 @@
 
   /**
    * Prototype crop set (minimum six). Ideal ranges drive temperature matching.
+   * All asset image paths resolved to assets/images/ directory.
    */
   const CROPS = [
     {
@@ -127,6 +128,7 @@
       harvestDays: "70–85 days",
       harvestDaysHi: "70–85 दिन",
       color: "#c45c4a",
+      image: "assets/images/tomatoes.png",
       guide: {
         soil: {
           en: "Loosen well-drained loam and mix in compost. Keep pH near 6.0–6.8. Stake rows before transplanting so roots are not disturbed later.",
@@ -159,6 +161,7 @@
       harvestDays: "40–50 days",
       harvestDaysHi: "40–50 दिन",
       color: "#3d7a3a",
+      image: "assets/images/spinach.png",
       guide: {
         soil: {
           en: "Rich, moist soil with plenty of organic matter. Avoid waterlogged beds. A light nitrogen boost helps leaf growth.",
@@ -191,6 +194,7 @@
       harvestDays: "50–65 days",
       harvestDaysHi: "50–65 दिन",
       color: "#589e33",
+      image: "assets/images/okra.png",
       guide: {
         soil: {
           en: "Sandy loam that warms quickly. Work in well-rotted manure. Okra dislikes cold, compacted ground.",
@@ -223,6 +227,7 @@
       harvestDays: "70–80 days",
       harvestDaysHi: "70–80 दिन",
       color: "#d97706",
+      image: "assets/images/carrots.png",
       guide: {
         soil: {
           en: "Deep, stone-free sandy loam. Skip fresh manure — it forks roots. Rake the bed fine before sowing.",
@@ -255,6 +260,7 @@
       harvestDays: "60–80 days",
       harvestDaysHi: "60–80 दिन",
       color: "#3f7d2a",
+      image: "assets/images/chillies.png",
       guide: {
         soil: {
           en: "Fertile loam with good drainage. Mix compost and a handful of wood ash for potassium.",
@@ -287,6 +293,7 @@
       harvestDays: "25–40 days",
       harvestDaysHi: "25–40 दिन",
       color: "#b91c1c",
+      image: "assets/images/radish.png",
       guide: {
         soil: {
           en: "Light, loose soil. Heavy clay makes roots woody. A shallow bed is enough for salad types.",
@@ -308,12 +315,62 @@
     },
   ];
 
+  function normalizeCropId(id) {
+    if (!id) return "tomatoes";
+    const lower = String(id).toLowerCase().trim();
+    if (lower === "tomato" || lower === "tomatoes") return "tomatoes";
+    if (lower === "carrot" || lower === "carrots") return "carrots";
+    if (lower === "chilli" || lower === "chillies" || lower === "chili") return "chillies";
+    if (lower === "radish" || lower === "radishes") return "radish";
+    if (lower === "spinach") return "spinach";
+    if (lower === "okra") return "okra";
+    return lower;
+  }
+
+  function populateCropSelect(select) {
+    if (!select || select.options.length > 0) return;
+    CROPS.forEach(function (crop) {
+      const opt = document.createElement("option");
+      opt.value = crop.id;
+      opt.textContent = crop.name + " / " + crop.nameHi;
+      select.appendChild(opt);
+    });
+  }
+
+  function setSelectCropValue(select, targetId) {
+    if (!select) return;
+    const normalized = normalizeCropId(targetId);
+    // 1. Direct value match
+    for (let i = 0; i < select.options.length; i++) {
+      if (select.options[i].value === targetId) {
+        select.selectedIndex = i;
+        select.value = select.options[i].value;
+        return;
+      }
+    }
+    // 2. Normalized match (e.g. "tomato" matches option "tomatoes", or vice-versa)
+    for (let i = 0; i < select.options.length; i++) {
+      if (normalizeCropId(select.options[i].value) === normalized) {
+        select.selectedIndex = i;
+        select.value = select.options[i].value;
+        return;
+      }
+    }
+    // 3. Fallback to first option
+    if (select.options.length > 0) {
+      select.selectedIndex = 0;
+      select.value = select.options[0].value;
+    }
+  }
+
   const I18N = {
     en: {
       skip: "Skip to content",
       navHome: "Home",
       navFind: "Find Crops",
+      navResults: "Results",
       navGuide: "Cultivation Guide",
+      navFeedback: "Feedback",
       heroEyebrow: "Phase 1 · Weather-smart farming",
       heroTitle: "Grow the right crop for today’s weather.",
       heroCopy:
@@ -339,7 +396,7 @@
       how3Body: "Soil prep, sowing, watering, and harvest steps in one bilingual timeline.",
       how4Title: "Plan the season",
       how4Body: "Harvest-duration badges help you pick short-cycle or longer vegetables.",
-      footerTag: "College Phase 1 prototype",
+      footerTag: "College Phase 2 prototype",
       footerNote: "Mock weather only — not a substitute for local agronomy advice.",
       locEyebrow: "Location",
       locTitle: "Where are you growing?",
@@ -385,12 +442,36 @@
       gpsUnsupported: "Geolocation is not available in this browser. Use city search.",
       cityOk: "Weather applied. Opening recommendations…",
       cityMiss: "City not in the prototype list. Try a suggested name.",
+      feedbackEyebrow: "Advisory desk",
+      feedbackTitle: "Farmer & home grower feedback",
+      feedbackLead:
+        "Ask a cultivation question or share what worked on your plot. Fields validate as you type. Submit stays off until every required field is valid.",
+      feedbackName: "Full name",
+      feedbackCity: "City / district",
+      feedbackCrop: "Crop of interest",
+      feedbackCropPlaceholder: "Select a crop",
+      feedbackCategory: "Category / user type",
+      catHome: "Home Gardener",
+      catBalcony: "Balcony Grower",
+      catFarmer: "Small Farmer",
+      feedbackQuery: "Query / feedback",
+      feedbackSubmit: "Send feedback",
+      feedbackSubmitting: "Submitting...",
+      errName: "Enter at least 3 letters. Use alphabetic characters only.",
+      errCity: "Enter your city or district.",
+      errCrop: "Choose a crop of interest.",
+      errCategory: "Select Home Gardener, Balcony Grower, or Small Farmer.",
+      errQuery: "Write at least 15 characters so we can advise you.",
+      feedbackOk: "Feedback saved successfully. Thank you.",
+      feedbackFail: "Could not send feedback. Check that the server is running and try again.",
     },
     hi: {
       skip: "मुख्य सामग्री पर जाएँ",
       navHome: "होम",
       navFind: "फसल खोजें",
+      navResults: "परिणाम",
       navGuide: "खेती गाइड",
+      navFeedback: "प्रतिक्रिया",
       heroEyebrow: "चरण 1 · मौसम-आधारित खेती",
       heroTitle: "आज के मौसम के हिसाब से सही फसल उगाएँ।",
       heroCopy:
@@ -416,7 +497,7 @@
       how3Body: "मिट्टी, बुवाई, सिंचाई और कटाई एक द्विभाषी टाइमलाइन में।",
       how4Title: "मौसम की योजना",
       how4Body: "कटाई अवधि बैज छोटी या लंबी फसल चुनने में मदद करते हैं।",
-      footerTag: "कॉलेज चरण 1 प्रोटोटाइप",
+      footerTag: "कॉलेज चरण 2 प्रोटोटाइप",
       footerNote: "केवल नकली मौसम — स्थानीय कृषि सलाह का विकल्प नहीं।",
       locEyebrow: "स्थान",
       locTitle: "आप कहाँ खेती कर रहे हैं?",
@@ -462,6 +543,28 @@
       gpsUnsupported: "इस ब्राउज़र में जियोलोकेशन नहीं है। शहर खोजें।",
       cityOk: "मौसम लागू। सिफारिशें खुल रही हैं…",
       cityMiss: "यह शहर सूची में नहीं। सुझाया नाम आज़माएँ।",
+      feedbackEyebrow: "सलाह डेस्क",
+      feedbackTitle: "किसान और घरेलू उत्पादक प्रतिक्रिया",
+      feedbackLead:
+        "खेती का सवाल पूछें या बताएँ क्या काम आया। टाइप करते ही जाँच होती है। सब सही होने पर ही भेजें सक्रिय होगा।",
+      feedbackName: "पूरा नाम",
+      feedbackCity: "शहर / जिला",
+      feedbackCrop: "फसल",
+      feedbackCropPlaceholder: "फसल चुनें",
+      feedbackCategory: "श्रेणी / उपयोगकर्ता प्रकार",
+      catHome: "घरेलू बागवान",
+      catBalcony: "बालकनी उत्पादक",
+      catFarmer: "छोटे किसान",
+      feedbackQuery: "प्रश्न / प्रतिक्रिया",
+      feedbackSubmit: "प्रतिक्रिया भेजें",
+      feedbackSubmitting: "भेजा जा रहा है...",
+      errName: "कम से कम 3 अक्षर लिखें। केवल अंग्रेज़ी अक्षर।",
+      errCity: "अपना शहर या जिला लिखें।",
+      errCrop: "फसल चुनें।",
+      errCategory: "घरेलू बागवान, बालकनी उत्पादक या छोटे किसान चुनें।",
+      errQuery: "सलाह के लिए कम से कम 15 अक्षर लिखें।",
+      feedbackOk: "प्रतिक्रिया सहेज ली गई। धन्यवाद।",
+      feedbackFail: "भेज नहीं सके। सर्वर चल रहा है, यह जाँचें और फिर कोशिश करें।",
     },
   };
 
@@ -554,7 +657,14 @@
     return (
       '<article class="crop-card">' +
       '<div class="crop-card__media">' +
+      '<img class="crop-card__img" src="' +
+      crop.image +
+      '" alt="' +
+      crop.name +
+      '" loading="lazy" onerror="this.style.display=\'none\'; if(this.nextElementSibling) this.nextElementSibling.style.display=\'block\';" />' +
+      '<div class="crop-card__svg-fallback" style="display:none;" aria-hidden="true">' +
       cropIcon(crop) +
+      "</div>" +
       "</div>" +
       '<div class="crop-card__body">' +
       "<h3>" +
@@ -564,9 +674,11 @@
       crop.nameHi +
       "</p>" +
       '<div class="card-meta">' +
-      tags.map(function (tag) {
-        return '<span class="badge">' + tag + "</span>";
-      }).join("") +
+      tags
+        .map(function (tag) {
+          return '<span class="badge">' + tag + "</span>";
+        })
+        .join("") +
       '<span class="badge">' +
       t("harvest") +
       ": " +
@@ -600,6 +712,11 @@
         return tag.indexOf("Cool") !== -1;
       });
     }
+    if (season === "warm") {
+      return crop.category === "warm" || crop.tags.some(function (tag) {
+        return tag.indexOf("Warm") !== -1;
+      });
+    }
     return crop.category === season;
   }
 
@@ -617,7 +734,23 @@
     if (empty) empty.classList.toggle("hidden", list.length > 0);
   }
 
-  function cityFromCoords(lat, lon) {
+  function initResultsFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const season = params.get("season");
+    const water = params.get("water");
+    const match = params.get("match");
+    if (season && document.getElementById("filter-season")) {
+      document.getElementById("filter-season").value = season;
+    }
+    if (water && document.getElementById("filter-water")) {
+      document.getElementById("filter-water").value = water;
+    }
+    if (match && document.getElementById("filter-match")) {
+      document.getElementById("filter-match").value = match;
+    }
+  }
+
+  function cityFromCoords(lat, lon) { results.html
     /* Coarse India bounding boxes for the prototype — not real reverse geocoding. */
     if (lat > 30.5 && lon > 76.5 && lon < 78.5) return CITIES.shimla;
     if (lat > 28 && lat < 29.2 && lon > 76.8 && lon < 77.6) return CITIES.delhi;
@@ -631,19 +764,28 @@
     return CITIES.bengaluru;
   }
 
+  function cleanStr(s) {
+    return String(s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
   function lookupCity(query) {
-    const key = String(query || "")
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "");
-    if (!key) return null;
-    if (CITIES[key]) return CITIES[key];
+    const raw = String(query || "").trim();
+    if (!raw) return null;
+    const cleanQuery = cleanStr(raw);
+
+    if (cleanQuery && CITIES[cleanQuery]) return CITIES[cleanQuery];
+
     const names = Object.keys(CITIES);
     for (let i = 0; i < names.length; i += 1) {
       const city = CITIES[names[i]];
       if (!city) continue;
-      if (city.location.toLowerCase().indexOf(key) !== -1) return city;
-      if (city.locationHi.indexOf(query.trim()) !== -1) return city;
+      const cleanLoc = cleanStr(city.location);
+      if (cleanQuery && (cleanLoc.indexOf(cleanQuery) !== -1 || cleanQuery.indexOf(cleanLoc.replace("india", "")) !== -1)) {
+        return city;
+      }
+      if (city.locationHi.indexOf(raw) !== -1 || raw.indexOf(city.locationHi.replace(/[,\s]/g, "").replace("भारत", "")) !== -1) {
+        return city;
+      }
     }
     return null;
   }
@@ -658,8 +800,17 @@
     const geoBtn = document.getElementById("geo-btn");
     const geoStatus = document.getElementById("geo-status");
     const form = document.getElementById("city-form");
+    const cityInput = document.getElementById("city-input");
     const cityStatus = document.getElementById("city-status");
-    if (geoBtn) {
+
+    if (cityInput && cityStatus) {
+      cityInput.addEventListener("input", function () {
+        cityStatus.textContent = "";
+        cityStatus.removeAttribute("data-tone");
+      });
+    }
+
+    if (geoBtn && geoStatus) {
       geoBtn.addEventListener("click", function () {
         if (!navigator.geolocation) {
           geoStatus.textContent = t("gpsUnsupported");
@@ -684,11 +835,11 @@
         );
       });
     }
-    if (form) {
+    if (form && cityStatus) {
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         const input = document.getElementById("city-input");
-        const found = lookupCity(input.value);
+        const found = lookupCity(input ? input.value : "");
         if (!found) {
           cityStatus.textContent = t("cityMiss");
           cityStatus.setAttribute("data-tone", "warn");
@@ -704,50 +855,87 @@
 
   function selectedCropId() {
     const params = new URLSearchParams(window.location.search);
-    return params.get("crop") || localStorage.getItem(STORAGE_CROP) || CROPS[0].id;
+    const fromUrl = params.get("crop");
+    if (fromUrl) {
+      const normalized = normalizeCropId(fromUrl);
+      if (
+        CROPS.some(function (item) {
+          return normalizeCropId(item.id) === normalized;
+        })
+      ) {
+        return normalized;
+      }
+    }
+    const fromStorage = localStorage.getItem(STORAGE_CROP);
+    if (fromStorage) {
+      const normalized = normalizeCropId(fromStorage);
+      if (
+        CROPS.some(function (item) {
+          return normalizeCropId(item.id) === normalized;
+        })
+      ) {
+        return normalized;
+      }
+    }
+    return CROPS[0].id;
   }
 
   function renderGuide() {
     const select = document.getElementById("crop-select");
     const timeline = document.getElementById("guide-timeline");
     const meta = document.getElementById("guide-meta");
+    const tabs = document.getElementById("guide-tabs");
     if (!select || !timeline) return;
 
-    if (!select.options.length) {
-      CROPS.forEach(function (crop) {
-        const opt = document.createElement("option");
-        opt.value = crop.id;
-        opt.textContent = crop.name + " / " + crop.nameHi;
-        select.appendChild(opt);
-      });
-    }
+    populateCropSelect(select);
 
-    const desired = selectedCropId();
-    if (
-      CROPS.some(function (item) {
-        return item.id === desired;
-      })
-    ) {
-      select.value = desired;
-    }
+    const currentNormalized = normalizeCropId(select.value || selectedCropId());
     const crop =
       CROPS.find(function (item) {
-        return item.id === select.value;
+        return normalizeCropId(item.id) === currentNormalized;
       }) || CROPS[0];
+
     localStorage.setItem(STORAGE_CROP, crop.id);
 
     const tags = lang === "hi" ? crop.tagsHi : crop.tags;
     const harvest = lang === "hi" ? crop.harvestDaysHi : crop.harvestDays;
-    meta.innerHTML =
-      tags.map(function (tag) {
-        return '<span class="badge">' + tag + "</span>";
-      }).join("") +
-      '<span class="badge">' +
-      t("harvest") +
-      ": " +
-      harvest +
-      "</span>" +
-      (isMatch(crop) ? '<span class="badge badge--match">' + t("match") + "</span>" : "");
+
+    if (meta) {
+      meta.innerHTML =
+        '<div class="guide-crop-header">' +
+        '<div class="guide-crop-thumb">' +
+        '<img src="' +
+        crop.image +
+        '" alt="' +
+        crop.name +
+        '" onerror="this.style.display=\'none\';" />' +
+        "</div>" +
+        '<div class="guide-crop-info">' +
+        "<h2>" +
+        (lang === "hi" ? crop.nameHi : crop.name) +
+        ' <small class="muted">(' +
+        (lang === "hi" ? crop.name : crop.nameHi) +
+        ")</small></h2>" +
+        '<div class="card-meta mt-2">' +
+        tags
+          .map(function (tag) {
+            return '<span class="badge">' + tag + "</span>";
+          })
+          .join("") +
+        '<span class="badge">' +
+        t("harvest") +
+        ": " +
+        harvest +
+        "</span>" +
+        (isMatch(crop) ? '<span class="badge badge--match">' + t("match") + "</span>" : "") +
+        "</div></div></div>";
+    }
+
+    if (tabs) {
+      tabs.querySelectorAll("[data-stage]").forEach(function (el) {
+        el.setAttribute("aria-selected", String(el.getAttribute("data-stage") === guideStage));
+      });
+    }
 
     timeline.innerHTML = STAGE_ORDER.map(function (stage) {
       const n = STAGE_ORDER.indexOf(stage) + 1;
@@ -759,6 +947,10 @@
         active +
         '" id="stage-' +
         stage +
+        '" data-stage="' +
+        stage +
+        '" role="button" tabindex="0" aria-label="' +
+        title +
         '">' +
         '<div class="timeline-marker" aria-hidden="true">' +
         n +
@@ -770,33 +962,326 @@
         "</p></div></article>"
       );
     }).join("");
+
+    timeline.querySelectorAll(".timeline-item").forEach(function (card) {
+      function selectStage() {
+        const stage = card.getAttribute("data-stage");
+        if (stage && stage !== guideStage) {
+          guideStage = stage;
+          renderGuide();
+          const target = document.getElementById("stage-" + guideStage);
+          if (target) target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
+      card.addEventListener("click", selectStage);
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectStage();
+        }
+      });
+    });
   }
 
   function bindGuidePage() {
     const select = document.getElementById("crop-select");
     const tabs = document.getElementById("guide-tabs");
     if (!select) return;
+
+    // 1. Ensure dropdown options are populated with crop.id values
+    populateCropSelect(select);
+
+    // 2. Read query parameter ?crop= and normalize
+    const params = new URLSearchParams(window.location.search);
+    const rawCropParam = params.get("crop");
+    let targetCropId;
+
+    if (rawCropParam) {
+      targetCropId = normalizeCropId(rawCropParam);
+    } else {
+      const stored = localStorage.getItem(STORAGE_CROP);
+      targetCropId = stored ? normalizeCropId(stored) : CROPS[0].id;
+    }
+
+    // 3. Set dropdown value with singular/plural matching
+    setSelectCropValue(select, targetCropId);
+
+    // 4. Attach change listener
     select.addEventListener("change", function () {
-      localStorage.setItem(STORAGE_CROP, select.value);
+      const currentCropId = normalizeCropId(select.value);
+      localStorage.setItem(STORAGE_CROP, currentCropId);
       const url = new URL(window.location.href);
-      url.searchParams.set("crop", select.value);
+      url.searchParams.set("crop", currentCropId);
       window.history.replaceState({}, "", url);
       renderGuide();
     });
+
     if (tabs) {
       tabs.addEventListener("click", function (event) {
         const btn = event.target.closest("[data-stage]");
         if (!btn) return;
         guideStage = btn.getAttribute("data-stage");
-        tabs.querySelectorAll("[data-stage]").forEach(function (el) {
-          el.setAttribute("aria-selected", String(el === btn));
-        });
         renderGuide();
         const target = document.getElementById("stage-" + guideStage);
         if (target) target.scrollIntoView({ behavior: "smooth", block: "nearest" });
       });
     }
-    renderGuide();
+
+    // 5. Immediately trigger change event to initialize & render timeline steps
+    select.dispatchEvent(new Event("change"));
+  }
+
+  const NAME_PATTERN = /^[A-Za-z]+(?:[ '\-][A-Za-z]+)*$/;
+  const FEEDBACK_FIELDS = ["fullName", "city", "crop", "category", "query"];
+
+  function letterCount(value) {
+    return (String(value).match(/[A-Za-z]/g) || []).length;
+  }
+
+  function feedbackValue(form, name) {
+    if (name === "category") {
+      const picked = form.querySelector('input[name="category"]:checked');
+      return picked ? picked.value : "";
+    }
+    const el = form.elements[name];
+    return el ? String(el.value || "").trim() : "";
+  }
+
+  function validateFeedbackField(form, name) {
+    const value = feedbackValue(form, name);
+    if (name === "fullName") {
+      return letterCount(value) >= 3 && NAME_PATTERN.test(value);
+    }
+    if (name === "city") {
+      return value.length >= 2;
+    }
+    if (name === "crop") {
+      return Boolean(value);
+    }
+    if (name === "category") {
+      return Boolean(value);
+    }
+    return value.length >= 15;
+  }
+
+  function errorKey(name) {
+    return {
+      fullName: "errName",
+      city: "errCity",
+      crop: "errCrop",
+      category: "errCategory",
+      query: "errQuery",
+    }[name];
+  }
+
+  function paintFeedbackField(form, name, showMessage) {
+    const wrap = form.querySelector('[data-field="' + name + '"]');
+    if (!wrap) return true;
+    const valid = validateFeedbackField(form, name);
+    const errorEl = wrap.querySelector(".field-error");
+    const control =
+      name === "category"
+        ? wrap.querySelector('input[name="category"]')
+        : form.elements[name];
+
+    wrap.classList.toggle("is-valid", valid);
+    wrap.classList.toggle("is-invalid", !valid && showMessage);
+
+    if (errorEl) {
+      errorEl.textContent = !valid && showMessage ? t(errorKey(name)) : "";
+    }
+    if (control) {
+      if (name === "category") {
+        wrap.querySelectorAll('input[name="category"]').forEach(function (radio) {
+          radio.setAttribute("aria-invalid", String(!valid && showMessage));
+        });
+      } else {
+        control.setAttribute("aria-invalid", String(!valid && showMessage));
+      }
+    }
+    return valid;
+  }
+
+  function syncFeedbackSubmit(form) {
+    const submit = document.getElementById("feedback-submit");
+    if (!submit) return;
+    const allValid = FEEDBACK_FIELDS.every(function (name) {
+      return validateFeedbackField(form, name);
+    });
+    submit.disabled = !allValid || submit.getAttribute("data-busy") === "true";
+  }
+
+  function bindFeedbackPage() {
+    const form = document.getElementById("feedback-form");
+    if (!form) return;
+
+    const status = document.getElementById("feedback-status");
+    const submit = document.getElementById("feedback-submit");
+    const spinner = submit ? submit.querySelector(".btn-spinner") : null;
+    const submitLabel = submit ? submit.querySelector("[data-i18n='feedbackSubmit']") : null;
+    const touched = {};
+
+    // Auto-select crop from query parameter ?crop= if provided
+    const params = new URLSearchParams(window.location.search);
+    const queryCrop = params.get("crop");
+    if (queryCrop && form.elements["crop"]) {
+      const select = form.elements["crop"];
+      const targetNormalized = normalizeCropId(queryCrop);
+      for (let i = 0; i < select.options.length; i++) {
+        const optVal = select.options[i].value;
+        if (optVal && (optVal === queryCrop.toLowerCase() || normalizeCropId(optVal) === targetNormalized)) {
+          select.selectedIndex = i;
+          touched["crop"] = true;
+          paintFeedbackField(form, "crop", false);
+          break;
+        }
+      }
+    }
+
+    function setBusy(busy) {
+      if (!submit) return;
+      submit.setAttribute("data-busy", busy ? "true" : "false");
+      submit.disabled = busy || !FEEDBACK_FIELDS.every(function (name) {
+        return validateFeedbackField(form, name);
+      });
+      form.setAttribute("aria-busy", String(busy));
+      if (spinner) spinner.classList.toggle("hidden", !busy);
+      if (submitLabel) submitLabel.textContent = busy ? t("feedbackSubmitting") : t("feedbackSubmit");
+    }
+
+    function showStatus(tone, message) {
+      if (!status) return;
+      status.textContent = message;
+      status.setAttribute("data-tone", tone);
+      status.classList.remove("hidden");
+    }
+
+    function refresh(name, fromBlur) {
+      if (fromBlur) touched[name] = true;
+      paintFeedbackField(form, name, Boolean(touched[name]));
+      syncFeedbackSubmit(form);
+    }
+
+    FEEDBACK_FIELDS.forEach(function (name) {
+      const wrap = form.querySelector('[data-field="' + name + '"]');
+      if (!wrap) return;
+      wrap.addEventListener("input", function () {
+        refresh(name, false);
+      });
+      wrap.addEventListener("change", function () {
+        refresh(name, true);
+      });
+      wrap.addEventListener(
+        "blur",
+        function (event) {
+          if (!wrap.contains(event.relatedTarget)) {
+            refresh(name, true);
+          }
+        },
+        true
+      );
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      let formValid = true;
+      FEEDBACK_FIELDS.forEach(function (name) {
+        touched[name] = true;
+        const ok = paintFeedbackField(form, name, true);
+        if (!ok) formValid = false;
+      });
+      syncFeedbackSubmit(form);
+      if (!formValid || !submit) return;
+
+      const payload = {
+        fullName: feedbackValue(form, "fullName"),
+        city: feedbackValue(form, "city"),
+        crop: feedbackValue(form, "crop"),
+        category: feedbackValue(form, "category"),
+        query: feedbackValue(form, "query"),
+        submittedAt: new Date().toISOString(),
+      };
+
+      setBusy(true);
+      if (status) {
+        status.textContent = "";
+        status.classList.add("hidden");
+        status.removeAttribute("data-tone");
+      }
+
+      fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (res) {
+          return res.text().then(function (text) {
+            var body = {};
+            try {
+              body = text ? JSON.parse(text) : {};
+            } catch (err) {
+              body = {};
+            }
+            return { ok: res.ok, status: res.status, body: body };
+          });
+        })
+        .then(function (result) {
+          if (!result.ok || !result.body || !result.body.success) {
+            const serverMsg =
+              result.body &&
+              (result.body.message || (result.body.errors && result.body.errors.join(". ")));
+            throw new Error(serverMsg || t("feedbackFail"));
+          }
+          form.reset();
+          FEEDBACK_FIELDS.forEach(function (name) {
+            touched[name] = false;
+            const wrap = form.querySelector('[data-field="' + name + '"]');
+            if (wrap) {
+              wrap.classList.remove("is-valid", "is-invalid");
+              const errorEl = wrap.querySelector(".field-error");
+              if (errorEl) errorEl.textContent = "";
+              const control = wrap.querySelector("input, select, textarea");
+              if (control) control.removeAttribute("aria-invalid");
+            }
+          });
+          showStatus("ok", t("feedbackOk"));
+        })
+        .catch(function (err) {
+          showStatus("warn", (err && err.message) || t("feedbackFail"));
+        })
+        .finally(function () {
+          setBusy(false);
+          syncFeedbackSubmit(form);
+        });
+    });
+
+    form._refreshFeedbackI18n = function () {
+      FEEDBACK_FIELDS.forEach(function (name) {
+        paintFeedbackField(form, name, Boolean(touched[name]));
+      });
+      if (submit && submit.getAttribute("data-busy") !== "true" && submitLabel) {
+        submitLabel.textContent = t("feedbackSubmit");
+      }
+      if (status && !status.classList.contains("hidden")) {
+        const tone = status.getAttribute("data-tone");
+        status.textContent = tone === "ok" ? t("feedbackOk") : t("feedbackFail");
+      }
+      syncFeedbackSubmit(form);
+    };
+
+    syncFeedbackSubmit(form);
+  }
+
+  function syncActiveNav() {
+    const rawPath = (window.location.pathname.split("/").pop() || "index").replace(/\.html$/i, "").toLowerCase() || "index";
+    document.querySelectorAll("#primary-nav a, .footer-nav a").forEach(function (a) {
+      const href = ((a.getAttribute("href") || "").split("?")[0].split("/").pop() || "index").replace(/\.html$/i, "").toLowerCase() || "index";
+      if (href === rawPath) {
+        a.setAttribute("aria-current", "page");
+      } else if (a.closest("#primary-nav")) {
+        a.removeAttribute("aria-current");
+      }
+    });
   }
 
   function bindChrome() {
@@ -808,29 +1293,64 @@
         renderFeatured();
         renderResults();
         renderGuide();
+        const feedbackForm = document.getElementById("feedback-form");
+        if (feedbackForm && feedbackForm._refreshFeedbackI18n) {
+          feedbackForm._refreshFeedbackI18n();
+        }
       });
     });
 
     const toggle = document.querySelector(".menu-toggle");
     const nav = document.getElementById("primary-nav");
     if (toggle && nav) {
+      function closeNav() {
+        nav.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open menu");
+      }
+
       toggle.addEventListener("click", function () {
         const open = nav.classList.toggle("is-open");
         toggle.setAttribute("aria-expanded", String(open));
         toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       });
+
+      // Close mobile menu when clicking outside or pressing Escape
+      document.addEventListener("click", function (event) {
+        if (nav.classList.contains("is-open") && !nav.contains(event.target) && !toggle.contains(event.target)) {
+          closeNav();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && nav.classList.contains("is-open")) {
+          closeNav();
+        }
+      });
+
+      nav.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", closeNav);
+      });
     }
 
     const filters = document.getElementById("filter-form");
     if (filters) {
+      filters.addEventListener("submit", function (e) {
+        e.preventDefault();
+        renderResults();
+      });
       filters.addEventListener("change", renderResults);
     }
+
+    syncActiveNav();
   }
 
   bindChrome();
+  initResultsFilters();
   applyI18n();
   renderFeatured();
   renderResults();
   bindLocationPage();
   bindGuidePage();
+  bindFeedbackPage();
 })();

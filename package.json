@@ -1,0 +1,15 @@
+{
+  "name": "mausam-crop-guide",
+  "version": "1.0.0",
+  "description": "MausamCrop - Weather-based crop advisory",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "client": "npx serve client",
+    "server": "node server/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
